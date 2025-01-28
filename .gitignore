@@ -1,0 +1,33 @@
+# Unity 自动生成的核心目录
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+
+# IDE 配置文件
+/.vs/
+/.vscode/
+/.idea/
+/*.csproj
+/*.sln
+/*.suo
+/*.userprefs
+
+# 特定文件
+*.pidb
+*.pdb
+*.ilk
+*.meta
+*.unitypackage
+*.bak
+
+# 包管理（通过 manifest 自动恢复）
+/[Pp]ackages/
+
+# 其他临时文件
+.DS_Store
+Thumbs.db
