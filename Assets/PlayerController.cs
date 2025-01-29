@@ -35,6 +35,15 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseDirection"",
+                    ""type"": ""Value"",
+                    ""id"": ""eefc4df0-5727-4e2a-b4a1-e433e6a766c7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -92,6 +101,17 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""399bb8cc-a618-4bf7-a9c5-709ceebbf9e1"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseDirection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -101,6 +121,7 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
+        m_Movement_MouseDirection = m_Movement.FindAction("MouseDirection", throwIfNotFound: true);
     }
 
     ~@PlayerController()
@@ -168,11 +189,13 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Movement;
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_Move;
+    private readonly InputAction m_Movement_MouseDirection;
     public struct MovementActions
     {
         private @PlayerController m_Wrapper;
         public MovementActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Movement_Move;
+        public InputAction @MouseDirection => m_Wrapper.m_Movement_MouseDirection;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -185,6 +208,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @MouseDirection.started += instance.OnMouseDirection;
+            @MouseDirection.performed += instance.OnMouseDirection;
+            @MouseDirection.canceled += instance.OnMouseDirection;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -192,6 +218,9 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @MouseDirection.started -= instance.OnMouseDirection;
+            @MouseDirection.performed -= instance.OnMouseDirection;
+            @MouseDirection.canceled -= instance.OnMouseDirection;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -212,5 +241,6 @@ public partial class @PlayerController: IInputActionCollection2, IDisposable
     public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnMouseDirection(InputAction.CallbackContext context);
     }
 }
